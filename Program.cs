@@ -97,13 +97,121 @@
 // }
 
 using EspacioEmpleado;
-var empl= new Empleado();
+//Cargar en un arreglo la memoria que se necesite
+Empleado[] empleados = new Empleado[3];
+//Cargar datos en el vector
+for (int i=0; i<3;i++)
+{   //CArgar datos en el vector
+    Console.WriteLine("Ingrese el nombre del empleado: ");
+    string nombreE = Console.ReadLine();
+    Console.WriteLine("Ingrese el Apellido del empleado: ");
+    string apellidoE = Console.ReadLine();
+    Console.WriteLine("Ingrese fecha de nacimiento del empleado(y,m,d): ");
+    int year = IngresarOption();
+    int mes = IngresarOption();
+    int dia = IngresarOption();
+    DateTime fechaN = new DateTime(year,mes,dia);
+    string estadoCivil; 
+    do{
+        Console.WriteLine("Ingrese el estado civil del empleado (Casado=S)(Soltero=N):");
+        estadoCivil = Console.ReadLine();
+    }while(estadoCivil != "S" && estadoCivil != "N" );
+    string genero;
+    do{
+        Console.WriteLine("Ingrese el genero del empleado (Varon=M y Mujer=F):");
+        genero = Console.ReadLine();
+    }while(genero!="M" && genero !="F");
 
-empl.Nombre = "Oscar";
-empl.Fechaingreso = new DateTime(2023,6,3) ;
-empl.Fechanacimiento = new DateTime(1994, 1, 24);
-empl.Genero = 'M';
-empl.Antiguedad();
-empl.Edad();
-empl.Juvilacion();
-Console.WriteLine(empl.Nombre);
+    Console.WriteLine("Ingrese fecha de Ingreso a la empreza del empleado(y,m,d): ");
+     year = IngresarOption();
+     mes = IngresarOption();
+     dia = IngresarOption();
+    DateTime fechaI = new DateTime(year,mes,dia);
+
+    Console.WriteLine("Ingrese sueldo basico del empleado:");
+    double sueldoB= IngresarOption();
+    int op;
+
+    do{
+        Console.WriteLine("Ingrese el cargo del empleado:");
+        Console.WriteLine("0-Auxuliar");
+        Console.WriteLine("1-Administrativo");
+        Console.WriteLine("2-Ingeniero");
+        Console.WriteLine("3-Especialista");
+        Console.WriteLine("4-Investigador");
+        Console.WriteLine("Ingresar opcion:");
+        op = IngresarOption();
+    }while(op>5);
+    switch(op){
+        case 0: //Para cada uno de los valores en vector hay q reversar memoria 
+            empleados[i]= new Empleado(nombreE,apellidoE,fechaN,estadoCivil[0],genero[0],fechaI,sueldoB, Cargo.Auxiliar);
+            break;
+        case 1:
+            empleados[i]= new Empleado(nombreE,apellidoE,fechaN,estadoCivil[0],genero[0],fechaI,sueldoB, Cargo.Administrativo);
+            break;
+        case 2:
+           empleados[i]= new Empleado(nombreE,apellidoE,fechaN,estadoCivil[0],genero[0],fechaI,sueldoB, Cargo.Ingeniero);
+            break;
+        case 3:
+            empleados[i]= new Empleado(nombreE,apellidoE,fechaN,estadoCivil[0],genero[0],fechaI,sueldoB, Cargo.Especialista);
+            break;
+        case 4:
+            empleados[i]= new Empleado(nombreE,apellidoE,fechaN,estadoCivil[0],genero[0],fechaI,sueldoB, Cargo.Investigador);
+            break;
+    }
+    
+}
+Console.ReadKey();
+//Calculo del valor de salarios a pagar
+double salarioTotal=0;
+for(int i=0; i<3;i++){
+    salarioTotal += empleados[i].Salario();
+}
+
+Console.WriteLine("El valor del salario total pagado a los tres empleados es de: "+salarioTotal);
+
+//Inverstigar cual valor de juvilacion es menor
+Console.ReadKey();
+Console.WriteLine("Empleado con fecha mas proxima a juvilarse:");
+    if(empleados[0].Antiguedad() < empleados[1].Antiguedad()){
+        if(empleados[0].Antiguedad() < empleados[2].Antiguedad()){
+            //cargar datos de 0
+            MostrarDatos(empleados[0]);
+        }else{
+            //cargar 2
+            MostrarDatos(empleados[2]);
+        }
+    }else{
+        if(empleados[1].Antiguedad() < empleados[2].Antiguedad()){
+            //cargo 1
+            MostrarDatos(empleados[1]);
+        }else{
+            //Cargo 2
+            MostrarDatos(empleados[2]);
+        }
+    }
+
+//Funcion que me carga datos a una variable
+int IngresarOption(){
+     int op;
+     if(int.TryParse(Console.ReadLine(), out op)){
+        return op;
+     }else{
+         Console.WriteLine("Error");
+         return 9999;
+     }
+ }
+//Funcion mostrar datos
+ void MostrarDatos(Empleado ver){
+    Console.WriteLine("Nombre del empleado: "+ ver.Nombre);
+    Console.WriteLine("Apellido del empleado: "+ ver.Apellido);
+    Console.WriteLine("Fecha de nacimiento del empleado: "+ ver.Fechanacimiento);
+    Console.WriteLine("Estado civil: "+ ver.Estadocivil);
+    Console.WriteLine("Genero: "+ver.Genero);
+    Console.WriteLine("Fecha de ingeso a la empresa "+ ver.Fechaingreso);
+    Console.WriteLine("Sueldo basico: "+ ver.Sueldobasico);
+    Console.WriteLine("Cargo: "+ ver.Cargo);
+    Console.WriteLine("Edad: "+ ver.Edad());
+    Console.WriteLine("Salario: "+ ver.Salario());
+    Console.WriteLine("Años para juvilarse: "+ ver.Juvilacion());
+ }
