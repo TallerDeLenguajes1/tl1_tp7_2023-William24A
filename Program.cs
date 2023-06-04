@@ -97,3 +97,13 @@
 // }
 
 using EspacioEmpleado;
+var empl= new Empleado();
+
+empl.Nombre = "Oscar";
+empl.Fechaingreso = new DateTime(2023,6,3) ;
+empl.Fechanacimiento = new DateTime(1994, 1, 24);
+empl.Genero = 'M';
+empl.Antiguedad();
+empl.Edad();
+empl.Juvilacion();
+Console.WriteLine(empl.Nombre);
